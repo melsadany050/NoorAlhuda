@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0d1927">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-512.png">
+<title>NoorAlhuda</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Scheherazade+New:wght@500;700&family=Noto+Naskh+Arabic:wght@500;700&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fbf8f1;--page:#fffdf8;--ink:#111;--muted:#6b6b6b;--bar:#e6f0f7;--line:#cfd8df;--accent:#2f6f9f;--hl:rgba(47,111,159,.14);
+--qfont:'Amiri Quran','Scheherazade New','Noto Naskh Arabic',serif;--qsize:28px;box-sizing:border-box;
+padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-theme="sepia"]){--bg:#0f1418;--page:#141b21;--ink:#ece8df;--muted:#97a3ad;--bar:#1d2832;--line:#2b3947}}
+:root[data-theme="dark"]{--bg:#0f1418;--page:#141b21;--ink:#ece8df;--muted:#97a3ad;--bar:#1d2832;--line:#2b3947}
+:root[data-theme="sepia"]{--bg:#efe3c8;--page:#f6ecd6;--ink:#2e2316;--muted:#7a6a52;--bar:#e3d3b0;--line:#cdb98f}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Naskh Arabic',system-ui,sans-serif;display:flex;flex-direction:column;-webkit-tap-highlight-color:transparent}
+header{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 14px;background:var(--bg);border-bottom:1px solid var(--line)}
+.ib{width:46px;height:42px;border-radius:14px;border:1px solid var(--line);background:var(--bar);color:var(--ink);font-size:20px;cursor:pointer}
+.title{flex:1;text-align:center;font-family:'Reem Kufi',sans-serif;font-size:18px}
+.sub{display:block;font-size:12px;color:var(--muted);font-family:'Noto Naskh Arabic'}
+main{flex:1;overflow:auto;padding:14px 12px 90px}
+.page{max-width:720px;margin:0 auto;background:var(--page);border:1px solid var(--line);border-radius:6px;padding:14px 14px 22px}
+.banner{margin:4px 0 8px;border:2px solid var(--accent);outline:1px solid var(--accent);outline-offset:-6px;padding:14px 8px;text-align:center;font-family:'Reem Kufi','Amiri Quran',serif;font-size:30px;color:var(--ink);
+background:repeating-linear-gradient(45deg,transparent 0 10px,var(--hl) 10px 11px),var(--page);position:relative}
+.banner:before,.banner:after{content:"❁";position:absolute;top:50%;transform:translateY(-50%);color:var(--accent);font-size:34px}
+.banner:before{right:14px}.banner:after{left:14px}
+.bsm{text-align:center;font-family:var(--qfont);font-size:calc(var(--qsize) + 4px);margin:10px 0 6px;line-height:2.2}
+.text{font-family:var(--qfont);font-size:var(--qsize);line-height:2.3;text-align:justify;text-align-last:center;word-spacing:2px}
+.v{cursor:pointer;border-radius:6px;transition:background .15s}
+.v.sel{background:var(--hl)}
+.m{display:inline-flex;align-items:center;justify-content:center;width:1.5em;height:1.5em;margin:0 .15em;border-radius:50%;border:2px solid var(--accent);color:var(--accent);font-family:'Noto Naskh Arabic',sans-serif;font-size:.5em;font-weight:700;vertical-align:middle;line-height:1;box-shadow:0 0 0 2px var(--page),0 0 0 3px var(--accent)}
+.nav{display:flex;justify-content:space-between;max-width:720px;margin:14px auto 0;gap:10px}
+.btn{flex:1;padding:12px;border-radius:14px;border:1px solid var(--line);background:var(--bar);color:var(--ink);font:inherit;font-size:16px;cursor:pointer}
+.empty{text-align:center;padding:30px 10px;line-height:2;color:var(--muted)}
+.empty .btn{display:inline-block;max-width:260px;color:var(--ink);margin-top:8px}
+.sheet{position:fixed;inset:0;z-index:10;background:rgba(0,0,0,.45);display:none}
+.sheet.open{display:block}
+.panel{position:absolute;bottom:0;right:0;left:0;max-height:82%;overflow:auto;background:var(--page);color:var(--ink);border-radius:22px 22px 0 0;padding:16px 16px calc(24px + env(safe-area-inset-bottom,0px));max-width:720px;margin:0 auto}
+.panel h3{margin:4px 0 12px;font-family:'Reem Kufi',sans-serif}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:14px 0}
+.seg{display:flex;gap:6px}.seg button{padding:8px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bar);color:var(--ink);font:inherit;cursor:pointer}
+.seg button.on{border-color:var(--accent);outline:2px solid var(--accent)}
+.sw{display:flex;gap:8px;flex-wrap:wrap}.sw i{width:30px;height:30px;border-radius:50%;cursor:pointer;border:2px solid var(--page);box-shadow:0 0 0 1px var(--line)}
+select,input[type=search],input[type=number]{font:inherit;padding:8px;border-radius:10px;border:1px solid var(--line);background:var(--bar);color:var(--ink)}
+input[type=search]{width:100%;margin-bottom:10px}
+input[type=range]{flex:1;accent-color:var(--accent)}
+.li{display:flex;align-items:center;gap:12px;padding:11px 6px;border-bottom:1px solid var(--line);cursor:pointer}
+.li b{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--accent);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:13px}
+.li span{flex:1;font-family:'Reem Kufi',sans-serif;font-size:18px}.li small{color:var(--muted)}
+.pfoot{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:8px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}.pfoot b{color:var(--accent);font-size:18px;border:1.5px solid var(--accent);border-radius:8px;padding:2px 10px}
+.note{font-size:13px;color:var(--muted);line-height:1.8}
+</style>
+</head>
+<body>
+<header>
+ <button class="ib" id="bList" aria-label="الفهرس">☰</button>
+ <div class="title"><span id="hName">القرآن الكريم</span><span class="sub" id="hSub"></span></div>
+ <button class="ib" id="bSet" aria-label="الإعدادات">Aa</button>
+</header>
+<main id="main"></main>
+
+<div class="sheet" id="shList"><div class="panel"><h3>فهرس السور</h3><div class="row" style="margin:0 0 10px"><input type="number" id="pj" min="1" max="604" placeholder="رقم الصفحة (١–٦٠٤)" style="flex:1"><button class="btn" style="flex:0 0 auto" id="pjb">اذهب</button></div><input type="search" id="q" placeholder="ابحث عن سورة…"><div id="list"></div></div></div>
+<div class="sheet" id="shSet"><div class="panel">
+ <h3>الإعدادات</h3>
+ <div class="row"><span>طريقة العرض</span><div class="seg" id="segMode"><button data-m="page">صفحات</button><button data-m="surah">سورة</button></div></div>
+ <div class="row"><span>المظهر</span><div class="seg" id="segTheme"><button data-t="light">فاتح</button><button data-t="sepia">ورقي</button><button data-t="dark">ليلي</button></div></div>
+ <div class="row"><span>لون التمييز</span><div class="sw" id="sw"></div></div>
+ <div class="row"><span>الخط</span><select id="font">
+  <option value="'Amiri Quran'">أميري قرآن</option><option value="'Scheherazade New'">شهرزاد</option><option value="'Noto Naskh Arabic'">نسخ</option><option value="'Reem Kufi'">ريم كوفي</option></select></div>
+ <div class="row"><span>الحجم</span><input type="range" id="size" min="20" max="48" step="1"></div>
+ <hr style="border:0;border-top:1px solid var(--line)">
+ <div class="row"><span>تحميل المصحف كاملًا من الإنترنت</span><button class="btn" style="flex:0 0 auto" id="bNet">تحميل</button></div>
+ <p class="note" id="netMsg">عرض صفحات المصحف (٦٠٤ صفحة) يعمل بعد الضغط على «تحميل».</p>
+ <div class="row"><span>استيراد المصحف كاملًا (JSON)</span><button class="btn" style="flex:0 0 auto" id="bImp">اختر ملف</button></div>
+ <p class="note">المضمَّن حاليًا: الفاتحة والآيات ١–١٥ من الحجر. للمصحف الكامل حمّل ملف JSON بالرسم العثماني من tanzil.net أو quran.com ثم استورده هنا؛ يُحفظ على جهازك ويعمل بلا إنترنت. الصيغ المقبولة: مصفوفة كائنات <code dir="ltr">{sura, aya, text}</code> أو مصفوفة من 114 مصفوفة نصوص.</p>
+ <input type="file" id="file" accept=".json,application/json" hidden>
+</div></div>
+
+<script>
+const NAMES="الفاتحة،البقرة،آل عمران،النساء،المائدة،الأنعام،الأعراف،الأنفال،التوبة،يونس،هود،يوسف،الرعد،إبراهيم،الحجر،النحل،الإسراء،الكهف،مريم،طه،الأنبياء،الحج،المؤمنون،النور،الفرقان،الشعراء،النمل،القصص،العنكبوت،الروم،لقمان،السجدة،الأحزاب،سبأ،فاطر،يس،الصافات،ص،الزمر،غافر،فصلت،الشورى،الزخرف،الدخان،الجاثية،الأحقاف،محمد،الفتح،الحجرات،ق،الذاريات،الطور،النجم،القمر،الرحمن،الواقعة،الحديد،المجادلة،الحشر،الممتحنة،الصف،الجمعة،المنافقون،التغابن،الطلاق،التحريم،الملك،القلم،الحاقة،المعارج،نوح،الجن،المزمل،المدثر،القيامة،الإنسان،المرسلات،النبأ،النازعات،عبس،التكوير،الانفطار،المطففين،الانشقاق،البروج،الطارق،الأعلى،الغاشية،الفجر،البلد،الشمس،الليل،الضحى،الشرح،التين،العلق،القدر،البينة،الزلزلة،العاديات،القارعة،التكاثر،العصر،الهمزة،الفيل،قريش،الماعون،الكوثر،الكافرون،النصر،المسد،الإخلاص،الفلق،الناس".split("،");
+const COUNTS=[7,286,200,176,120,165,206,75,129,109,123,111,43,52,99,128,111,110,98,135,112,78,118,64,77,227,93,88,69,60,34,30,73,54,45,83,182,88,75,85,54,53,89,59,37,35,38,29,18,45,60,49,62,55,78,96,29,22,24,13,14,11,11,18,12,12,30,52,52,44,28,28,20,56,40,31,50,40,46,42,29,19,36,25,22,17,19,26,30,20,15,21,11,8,8,19,5,8,8,11,11,8,3,9,5,4,7,3,6,3,5,4,5,6];
+const BSM="بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ";
+let DATA={
+1:["بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ","ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ","ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ","مَـٰلِكِ يَوْمِ ٱلدِّينِ","إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ","ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ","صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ"],
+15:["الٓر ۚ تِلْكَ ءَايَـٰتُ ٱلْكِتَـٰبِ وَقُرْءَانٍ مُّبِينٍ","رُّبَمَا يَوَدُّ ٱلَّذِينَ كَفَرُوا۟ لَوْ كَانُوا۟ مُسْلِمِينَ","ذَرْهُمْ يَأْكُلُوا۟ وَيَتَمَتَّعُوا۟ وَيُلْهِهِمُ ٱلْأَمَلُ ۖ فَسَوْفَ يَعْلَمُونَ","وَمَآ أَهْلَكْنَا مِن قَرْيَةٍ إِلَّا وَلَهَا كِتَابٌ مَّعْلُومٌ","مَّا تَسْبِقُ مِنْ أُمَّةٍ أَجَلَهَا وَمَا يَسْتَـْٔخِرُونَ","وَقَالُوا۟ يَـٰٓأَيُّهَا ٱلَّذِى نُزِّلَ عَلَيْهِ ٱلذِّكْرُ إِنَّكَ لَمَجْنُونٌ","لَّوْ مَا تَأْتِينَا بِٱلْمَلَـٰٓئِكَةِ إِن كُنتَ مِنَ ٱلصَّـٰدِقِينَ","مَا نُنَزِّلُ ٱلْمَلَـٰٓئِكَةَ إِلَّا بِٱلْحَقِّ وَمَا كَانُوٓا۟ إِذًا مُّنظَرِينَ","إِنَّا نَحْنُ نَزَّلْنَا ٱلذِّكْرَ وَإِنَّا لَهُۥ لَحَـٰفِظُونَ","وَلَقَدْ أَرْسَلْنَا مِن قَبْلِكَ فِى شِيَعِ ٱلْأَوَّلِينَ","وَمَا يَأْتِيهِم مِّن رَّسُولٍ إِلَّا كَانُوا۟ بِهِۦ يَسْتَهْزِءُونَ","كَذَٰلِكَ نَسْلُكُهُۥ فِى قُلُوبِ ٱلْمُجْرِمِينَ","لَا يُؤْمِنُونَ بِهِۦ وَقَدْ خَلَتْ سُنَّةُ ٱلْأَوَّلِينَ","وَلَوْ فَتَحْنَا عَلَيْهِم بَابًا مِّنَ ٱلسَّمَآءِ فَظَلُّوا۟ فِيهِ يَعْرُجُونَ","لَقَالُوٓا۟ إِنَّمَا سُكِّرَتْ أَبْصَـٰرُنَا بَلْ نَحْنُ قَوْمٌ مَّسْحُورُونَ"]};
+const $=s=>document.querySelector(s), AR=n=>String(n).replace(/\d/g,d=>"٠١٢٣٤٥٦٧٨٩"[d]);
+const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+let S=Object.assign({theme:null,accent:"#2f6f9f",font:"'Amiri Quran'",size:28,cur:15,mode:"page",page:1},store.get("qs",{}));
+const saved=store.get("qdata",null); if(saved) DATA=saved;
+let PM=store.get("qpages",null),SP={};
+function buildSP(){SP={};if(!PM)return;for(const p in PM)PM[p].v.forEach(([s,a])=>{if(a===1)SP[s]=+p})}
+function extractPM(j){
+ let r=j;for(const k of ["data","quran","surahs","chapters"])if(r&&!Array.isArray(r)&&typeof r[k]==="object"&&r[k]!==null)r=r[k];
+ if(!Array.isArray(r)||!r.length||typeof r[0]!=="object")return null;
+ const pm={};let ok=false;
+ r.forEach((e,i)=>{const l=e&&(e.ayahs||e.verses);if(!Array.isArray(l))return;const n=+(e.number||e.id)||i+1;
+  l.forEach((x,idx)=>{if(x&&x.page){ok=true;const p=x.page;(pm[p]=pm[p]||{j:x.juz,h:x.hizbQuarter,v:[]}).v.push([n,idx+1])}})});
+ return ok?pm:null}
+const COLORS=["#2f6f9f","#1f8a5b","#b5532a","#8a3fa0","#b8860b","#c0392b"];
+function save(){store.set("qs",S)}
+function apply(){const r=document.documentElement;
+ if(S.theme) r.setAttribute("data-theme",S.theme); else r.removeAttribute("data-theme");
+ r.style.setProperty("--accent",S.accent);
+ const h=S.accent;r.style.setProperty("--hl",h+"24");
+ r.style.setProperty("--qfont",S.font+",'Amiri Quran','Noto Naskh Arabic',serif");
+ r.style.setProperty("--qsize",S.size+"px");
+ document.querySelectorAll("#segTheme button").forEach(b=>b.classList.toggle("on",b.dataset.t===S.theme));
+ document.querySelectorAll("#segMode button").forEach(b=>b.classList.toggle("on",b.dataset.m===S.mode));
+ $("#font").value=S.font;$("#size").value=S.size}
+function norm(s){return s.replace(/[\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/g,"").replace(/ٱ/g,"ا")}
+function renderPage(){
+ const p=S.page,pg=PM[p],m=$("#main");
+ let h='<div class="page">',buf="";
+ const flush=()=>{if(buf){h+='<div class="text">'+buf+'</div>';buf=""}};
+ pg.v.forEach(([s,a])=>{
+  if(a===1){flush();h+='<div class="banner">سُورَةُ '+NAMES[s-1]+'</div>';if(s!==1&&s!==9)h+='<div class="bsm">'+BSM+'</div>'}
+  const t=(DATA[s]||[])[a-1]||"";
+  buf+='<span class="v">'+t+' <span class="m">'+AR(a)+'</span></span> '});
+ flush();
+ h+='<div class="pfoot"><span>الحزب '+AR(Math.ceil((pg.h||1)/4))+'</span><b>'+AR(p)+'</b><span>الجزء '+AR(pg.j||1)+'</span></div></div>';
+ h+='<div class="nav"><button class="btn" id="nx"'+(p>=604?" disabled":"")+'>الصفحة التالية ‹</button><button class="btn" id="pv"'+(p<=1?" disabled":"")+'>› الصفحة السابقة</button></div>';
+ m.innerHTML=h;m.scrollTop=0;
+ const s0=pg.v[0][0];S.cur=s0;
+ $("#hName").textContent="سورة "+NAMES[s0-1];$("#hSub").textContent="صفحة "+AR(p)+" · الجزء "+AR(pg.j||1);
+ m.querySelectorAll(".v").forEach(e=>e.onclick=()=>e.classList.toggle("sel"));
+ $("#nx").onclick=()=>goP(p+1);$("#pv").onclick=()=>goP(p-1);
+ save()}
+function goP(p){S.page=Math.min(604,Math.max(1,p));render()}
+function render(){
+ if(S.mode==="page"&&PM&&PM[S.page])return renderPage();
+ const n=S.cur,ay=DATA[n],m=$("#main");
+ $("#hName").textContent="سورة "+NAMES[n-1];$("#hSub").textContent=AR(COUNTS[n-1])+" آية";
+ let h='<div class="page"><div class="banner">سُورَةُ '+NAMES[n-1]+'</div>';
+ if(!ay){h+='<div class="empty">نص هذه السورة غير مضمَّن بعد.<br>استورد ملف المصحف الكامل (JSON) من الإعدادات.<br><button class="btn" id="goImp">استيراد المصحف</button></div></div>'}
+ else{
+  if(n!==1&&n!==9)h+='<div class="bsm">'+BSM+'</div>';
+  h+='<div class="text">'+ay.map((t,i)=>'<span class="v" data-i="'+i+'">'+t+' <span class="m">'+AR(i+1)+'</span></span> ').join("")+'</div></div>'}
+ h+='<div class="nav"><button class="btn" id="nx"'+(n>=114?" disabled":"")+'>السورة التالية ‹</button><button class="btn" id="pv"'+(n<=1?" disabled":"")+'>› السورة السابقة</button></div>';
+ m.innerHTML=h;m.scrollTop=0;
+ m.querySelectorAll(".v").forEach(e=>e.onclick=()=>e.classList.toggle("sel"));
+ $("#nx").onclick=()=>go(n+1);$("#pv").onclick=()=>go(n-1);
+ const g=$("#goImp");if(g)g.onclick=()=>open("#shSet");
+ save()}
+function go(n){S.cur=Math.min(114,Math.max(1,n));if(S.mode==="page"&&PM&&SP[S.cur])S.page=SP[S.cur];render()}
+function open(id){$(id).classList.add("open")}
+document.querySelectorAll(".sheet").forEach(s=>s.addEventListener("click",e=>{if(e.target===s)s.classList.remove("open")}));
+function buildList(f=""){const nf=norm(f.trim());
+ $("#list").innerHTML=NAMES.map((nm,i)=>[nm,i]).filter(([nm,i])=>!nf||norm(nm).includes(nf)||String(i+1)===nf)
+ .map(([nm,i])=>'<div class="li" data-n="'+(i+1)+'"><b>'+AR(i+1)+'</b><span>'+nm+'</span><small>'+AR(COUNTS[i])+(DATA[i+1]?"":" · غير مضمّنة")+'</small></div>').join("");
+ document.querySelectorAll(".li").forEach(e=>e.onclick=()=>{$("#shList").classList.remove("open");go(+e.dataset.n)})}
+$("#bList").onclick=()=>{buildList($("#q").value);open("#shList")};
+$("#q").oninput=e=>buildList(e.target.value);
+$("#bSet").onclick=()=>open("#shSet");
+document.querySelectorAll("#segTheme button").forEach(b=>b.onclick=()=>{S.theme=b.dataset.t;apply();save()});
+$("#sw").innerHTML=COLORS.map(c=>'<i style="background:'+c+'" data-c="'+c+'"></i>').join("")+'<input type="color" id="cc" value="'+S.accent+'" style="width:34px;height:34px;border:0;background:none;padding:0">';
+document.querySelectorAll("#sw i").forEach(i=>i.onclick=()=>{S.accent=i.dataset.c;apply();save()});
+$("#cc").oninput=e=>{S.accent=e.target.value;apply();save()};
+$("#font").onchange=e=>{S.font=e.target.value;apply();save()};
+$("#size").oninput=e=>{S.size=+e.target.value;apply();save()};
+function parseQ(j){
+ const out={};
+ const T=x=>typeof x==="string"?x:(x&&(x.text??x.text_uthmani??x.verse_text??x.content??x.arabic??x.ar))||"";
+ const N=(o,ks)=>{for(const k of ks)if(o[k]!=null&&o[k]!==""&&!isNaN(+o[k]))return +o[k]};
+ const L=o=>{for(const k of ["verses","ayahs","ayat","aya","ayas"])if(Array.isArray(o[k]))return o[k]};
+ let r=j;
+ for(const k of ["data","quran","surahs","chapters"])if(r&&!Array.isArray(r)&&typeof r[k]==="object"&&r[k]!==null)r=r[k];
+ if(Array.isArray(r)){
+  if(r.length&&r.every(e=>Array.isArray(e))){r.forEach((a,i)=>{out[i+1]=a.map(T)})}
+  else if(r.length&&typeof r[0]==="object"&&L(r[0])){r.forEach((e,i)=>{const n=N(e,["number","id","index","sura","surah","chapter"])||i+1;out[n]=L(e).map(T)})}
+  else{r.forEach(e=>{let s=N(e,["sura","surah","chapter","surah_number","sura_number","chapter_id"]),a=N(e,["aya","ayah","verse","ayah_number","verse_number","verse_id"]);
+   if((!s||!a)&&typeof e.verse_key==="string"){const p=e.verse_key.split(":");s=+p[0];a=+p[1]}
+   const t=T(e);if(s&&a&&t)(out[s]=out[s]||[])[a-1]=t})}
+ }else if(r&&typeof r==="object"){
+  Object.keys(r).forEach(k=>{const n=parseInt(k.replace(/\D/g,""));const v=r[k];if(!n)return;
+   if(Array.isArray(v))out[n]=v.map(T);
+   else if(v&&typeof v==="object"){const l=L(v);out[n]=l?l.map(T):Object.keys(v).sort((a,b)=>a-b).map(x=>T(v[x]))}})
+ }
+ Object.keys(out).forEach(k=>{out[k]=Array.from(out[k],x=>x||"")});
+ return out}
+$("#bImp").onclick=()=>$("#file").click();
+$("#file").onchange=async e=>{
+ const f=e.target.files[0];if(!f)return;
+ try{
+  const j=JSON.parse(await f.text()),out=parseQ(j);
+  // remove the basmala glued to verse 1 (except Al-Fatiha)
+  Object.keys(out).forEach(k=>{if(+k===1)return;const w=(out[k][0]||"").split(" ");
+   if(w.length>4&&norm(w.slice(0,4).join(" "))==="بسم الله الرحمن الرحيم")out[k][0]=w.slice(4).join(" ")});
+  if(!Object.keys(out).length)throw 0;
+  const cnt=Object.keys(out).length;
+  try{localStorage.setItem("qdata",JSON.stringify(out))}catch(x){alert("تم التحميل لكن تعذّر حفظه على الجهاز (مساحة التخزين ممتلئة).")}
+  alert("تم استيراد "+cnt+" سورة"+(cnt<114?" (أقل من 114، تأكد من اكتمال الملف)":""));
+  DATA=out;PM=extractPM(j);store.set("qpages",PM);buildSP();if(PM)S.mode="page";$("#shSet").classList.remove("open");render();
+ }catch(err){alert("تعذّر قراءة الملف: صيغة الـ JSON غير معروفة أو الملف فارغ.")}
+ e.target.value=""};
+$("#bNet").onclick=async()=>{
+ const msg=$("#netMsg");msg.textContent="جارٍ التحميل…";
+ try{
+  const r=await fetch("https://api.alquran.cloud/v1/quran/quran-uthmani");
+  const j=await r.json(),out={};
+  j.data.surahs.forEach(s=>{out[s.number]=s.ayahs.map(a=>a.text)});
+  Object.keys(out).forEach(k=>{if(+k===1)return;const w=(out[k][0]||"").split(" ");
+   if(w.length>4&&norm(w.slice(0,4).join(" "))==="بسم الله الرحمن الرحيم")out[k][0]=w.slice(4).join(" ")});
+  if(Object.keys(out).length!==114)throw 0;
+  DATA=out;PM=extractPM(j);store.set("qpages",PM);buildSP();if(PM)S.mode="page";store.set("qdata",out);msg.textContent="تم تحميل المصحف كاملًا وحفظه على جهازك.";render();
+ }catch(e){msg.textContent="تعذّر التحميل. افتح الملف مباشرة على جهازك (وليس من المعاينة) وتأكد من الاتصال بالإنترنت، أو استخدم الاستيراد من ملف JSON."}
+};
+$("#pjb").onclick=()=>{const p=+$("#pj").value;if(!PM){alert("حمّل المصحف أولًا من الإعدادات (Aa ← تحميل).");return}if(p>=1&&p<=604){S.mode="page";S.page=p;$("#shList").classList.remove("open");render()}};
+document.querySelectorAll("#segMode button").forEach(b=>b.onclick=()=>{
+ if(b.dataset.m==="page"){if(!PM){alert("حمّل المصحف أولًا من الإعدادات (Aa ← تحميل) ليعمل عرض الصفحات.");return}S.page=SP[S.cur]||S.page}
+ S.mode=b.dataset.m;apply();render()});
+let tx=null;const mn=$("#main");
+mn.addEventListener("touchstart",e=>{tx=e.touches[0].clientX},{passive:true});
+mn.addEventListener("touchend",e=>{if(tx==null||S.mode!=="page"||!PM)return;const dx=e.changedTouches[0].clientX-tx;tx=null;if(Math.abs(dx)>70)goP(S.page+(dx>0?1:-1))},{passive:true});
+buildSP();
+apply();render();
+if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+</script>
+</body>
+</html>
